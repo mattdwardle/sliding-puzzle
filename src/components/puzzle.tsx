@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Board from "./board"
+import Modal from "./modal"
+import SideBar from "./sidebar"
 
 interface PuzzleProps {
-  size: number
+  intialSize: number
 }
 
-const Puzzle: React.FC<PuzzleProps> = ({ size }) => {
-  const [puzzle, setPuzzle] = useState(generatePuzzle(size))
+const Puzzle: React.FC<PuzzleProps> = ({ intialSize }) => {
+  const [puzzle, setPuzzle] = useState(generatePuzzle(intialSize))
   const [moves, setMoves] = useState(0)
+  const [isSolved, setIsSolved] = useState(false)
+  const [size, setSize] = useState(intialSize)
 
   // Generate a new puzzle
   function generatePuzzle(size: number): number[] {
@@ -52,6 +56,46 @@ const Puzzle: React.FC<PuzzleProps> = ({ size }) => {
     }
   }
 
+  // Handle the change of the size input field
+  const handleSizeChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      // Get the new size value from the input field
+      const newSize = parseInt(event.target.value)
+      // Check if the new size is greater than 2 and less than 10
+      // any bigger and the puzzle becomes too hard
+      if (newSize >= 2 && newSize <= 10) {
+        // Update the state with the new size and puzzle
+        setSize(newSize)
+        setPuzzle(generatePuzzle(newSize))
+        setMoves(0)
+        setIsSolved(false)
+      }
+    },
+    []
+  )
+
+  // Handle the shuffle button
+  const handleShuffle = useCallback(() => {
+    setMoves(0)
+    setIsSolved(false)
+    setPuzzle(generatePuzzle(size))
+  }, [size])
+
+  // Check if the puzzle is complete
+  function isPuzzleComplete(puzzle: number[]): boolean {
+    // Loop through the puzzle array and check if each tile is in the correct position
+    for (let i = 0; i < puzzle.length - 1; i++) {
+      if (puzzle[i] !== i + 1) {
+        return false
+      }
+    }
+    // Check if the last tile is 0
+    if (puzzle[puzzle.length - 1] !== 0) {
+      return false
+    }
+    return true
+  }
+
   useEffect(() => {
     // Define a function to handle key down events
     function handleKeyDown(event: KeyboardEvent) {
@@ -90,8 +134,25 @@ const Puzzle: React.FC<PuzzleProps> = ({ size }) => {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [puzzle, size])
 
+  useEffect(() => {
+    // Check if the puzzle is solved when the puzzle state changes
+    isPuzzleComplete(puzzle) && setIsSolved(true)
+  }, [puzzle])
+
   return (
     <div className="puzzle flex flex-row">
+      <SideBar
+        moves={moves}
+        size={size}
+        handleSizeChange={handleSizeChange}
+        handleShuffle={handleShuffle}
+      />
+      <Modal
+        open={isSolved}
+        moves={moves}
+        handleShuffle={handleShuffle}
+        setIsSolved={setIsSolved}
+      />
       <Board size={size} puzzle={puzzle} onMove={handleMove} />
     </div>
   )

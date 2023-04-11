@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 
 interface TileProps {
   value: number
@@ -22,4 +22,4 @@ const Tile: React.FC<TileProps> = ({ value, onClick }) => {
   )
 }
 
-export default Tile
+export default memo(Tile)
