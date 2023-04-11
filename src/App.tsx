@@ -1,10 +1,9 @@
-import React from "react"
-import "./App.css"
+import Puzzle from "./components/puzzle"
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+    <div className="App text-left pr-10">
+      <Puzzle size={3} />
     </div>
   )
 }
