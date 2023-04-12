@@ -8,11 +8,9 @@ interface BoardProps {
 }
 
 const Board: React.FC<BoardProps> = ({ size, puzzle, onMove }) => {
-  const rows = []
+  const tiles = []
 
   for (let row = 0; row < size; row++) {
-    const tiles = []
-
     for (let col = 0; col < size; col++) {
       const index = row * size + col
       const value = puzzle[index]
@@ -21,17 +19,15 @@ const Board: React.FC<BoardProps> = ({ size, puzzle, onMove }) => {
         <Tile key={index} value={value} onClick={() => onMove(index)} />
       )
     }
-
-    rows.push(
-      <div key={row} className="flex flex-row">
-        {tiles}
-      </div>
-    )
   }
 
   return (
-    <div className="flex flex-col items-center p-4 bg-white shadow-md max-w-fit mx-auto rounded-2xl	">
-      {rows}
+    <div
+      id="board"
+      style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
+      className={`p-4 bg-white shadow-md max-w-fit md:m-8 rounded-2xl auto-rows-fr grid`}
+    >
+      {tiles}
     </div>
   )
 }

@@ -63,7 +63,7 @@ const Puzzle: React.FC<PuzzleProps> = ({ intialSize }) => {
       const newSize = parseInt(event.target.value)
       // Check if the new size is greater than 2 and less than 10
       // any bigger and the puzzle becomes too hard
-      if (newSize >= 2 && newSize <= 10) {
+      if (newSize >= 2) {
         // Update the state with the new size and puzzle
         setSize(newSize)
         setPuzzle(generatePuzzle(newSize))
@@ -140,21 +140,23 @@ const Puzzle: React.FC<PuzzleProps> = ({ intialSize }) => {
   }, [puzzle])
 
   return (
-    <div className="puzzle flex flex-row">
-      <SideBar
-        moves={moves}
-        size={size}
-        handleSizeChange={handleSizeChange}
-        handleShuffle={handleShuffle}
-      />
+    <>
+      <div className="puzzle flex flex-row items-center justify-center flex-wrap">
+        <SideBar
+          moves={moves}
+          size={size}
+          handleSizeChange={handleSizeChange}
+          handleShuffle={handleShuffle}
+        />
+        <Board size={size} puzzle={puzzle} onMove={handleMove} />
+      </div>
       <Modal
         open={isSolved}
         moves={moves}
         handleShuffle={handleShuffle}
         setIsSolved={setIsSolved}
       />
-      <Board size={size} puzzle={puzzle} onMove={handleMove} />
-    </div>
+    </>
   )
 }
 

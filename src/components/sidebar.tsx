@@ -4,7 +4,8 @@ interface SidebarProps {
   moves: number
   size: number
   handleShuffle: () => void
-  handleSizeChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  // handleSizeChange: React.ChangeEventHandler<HTMLSelectElement>
+  handleSizeChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
 const SideBar: React.FC<SidebarProps> = ({
@@ -14,28 +15,34 @@ const SideBar: React.FC<SidebarProps> = ({
   handleSizeChange
 }) => {
   return (
-    <div className="puzzle-sidebar">
+    <div className="puzzle-sidebar flex flex-col text-left max-w-2/3 items-start justify-center p-8">
       <h1 className="text-4xl font-bold mt-14">Sliding Puzzle</h1>
       <p>Use the arrow keys to move the tiles or click on a tile to move it.</p>
       <p>Try to get the tiles in order.</p>
-      <div className="puzzle-counter">
-        <span className="puzzle-counter-label">Moves:</span>
+      <div className="puzzle-counter mt-2 font-bold text-lg">
+        <span className="puzzle-counter-label font-normal">Moves: </span>
         <span className="puzzle-counter-value">{moves}</span>
       </div>
 
       {/* Add an input field to change the grid size */}
-      <label htmlFor="size-input">Grid size:</label>
-      <input
-        id="size-input"
-        type="number"
-        min="2"
-        max="10"
-        value={size}
-        onChange={handleSizeChange}
-      />
+      <div className="puzzle-size font-bold text-lg flex items-center">
+        <label className="font-normal whitespace-nowrap" htmlFor="size-input">
+          Grid size: {"   "}
+        </label>
+
+        <input
+          type="number"
+          name="number"
+          id="size-input"
+          min="2"
+          defaultValue={size}
+          onChange={handleSizeChange}
+          className="w-24 px-3 py-2 ml-1 border rounded-md text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
+        />
+      </div>
 
       <button
-        className="puzzle-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="puzzle-button max-w-[150px] mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={handleShuffle}
       >
         Shuffle
@@ -44,4 +51,4 @@ const SideBar: React.FC<SidebarProps> = ({
   )
 }
 
-export default memo(SideBar)
+export default SideBar

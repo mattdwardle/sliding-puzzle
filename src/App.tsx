@@ -2,7 +2,7 @@ import Puzzle from "./components/puzzle"
 
 function App() {
   return (
-    <div className="App text-left pr-10">
+    <div className="App">
       <Puzzle intialSize={3} />
     </div>
   )
