@@ -4,7 +4,6 @@ interface SidebarProps {
   moves: number
   size: number
   handleShuffle: () => void
-  // handleSizeChange: React.ChangeEventHandler<HTMLSelectElement>
   handleSizeChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
@@ -20,7 +19,7 @@ const SideBar: React.FC<SidebarProps> = ({
       <p>Use the arrow keys to move the tiles or click on a tile to move it.</p>
       <p>Try to get the tiles in order.</p>
       <div className="puzzle-counter mt-2 font-bold text-lg">
-        <span className="puzzle-counter-label font-normal">Moves: </span>
+        <span className="puzzle-counter-label font-normal">Move Counter: </span>
         <span className="puzzle-counter-value">{moves}</span>
       </div>
 
@@ -40,6 +39,16 @@ const SideBar: React.FC<SidebarProps> = ({
           className="w-24 px-3 py-2 ml-1 border rounded-md text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
         />
       </div>
+      {/* Change to a photo background */}
+      {/* <div className="puzzle-size font-bold text-lg flex items-center">
+        <button
+          className="change-image max-w-[250px] mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={changeToImageBackground}
+        >
+          Try Image Background
+        </button>
+      </div> */}
+      {/* Add a button to shuffle the tiles */}
 
       <button
         className="puzzle-button max-w-[150px] mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
